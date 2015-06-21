@@ -1,0 +1,18 @@
+public class Knight extends Figure {
+
+    {
+        _moveMap.add(new Position(-2, 1));
+        _moveMap.add(new Position(-1, 2));
+        _moveMap.add(new Position(1, 2));
+        _moveMap.add(new Position(2, 1));
+        _moveMap.add(new Position(2, -1));
+        _moveMap.add(new Position(1, -2));
+        _moveMap.add(new Position(-1, -2));
+        _moveMap.add(new Position(-2, -1));
+    }
+
+    public Knight(boolean _black, Position _position) {
+        super(_black, _position);
+    }
+
+}
