@@ -13,13 +13,13 @@ public abstract class Figure {
         this._dead = false;
     }
 
-    public void move(Position newPosition){
+    public void move(Position newPosition) {
         _position = newPosition;
     }
 
     protected boolean checkMoveFigure(Position position) {
-        for (Position checkPosition : getPossibleMoves()){
-            if (checkPosition==position) {
+        for (Position checkPosition : getPossibleMoves()) {
+            if (checkPosition == position) {
                 return true;
             }
         }
@@ -29,8 +29,8 @@ public abstract class Figure {
 
     protected List<Position> getPossibleMoves() {
         List<Position> possibleMoves = new LinkedList<>();
-        for (Position position : _moveMap){
-            if (Game._field.isPositionBusy(position)){
+        for (Position position : _moveMap) {
+            if (Game._field.isPositionBusy(position)) {
                 if (isSameColor(Game._field.getFigureByPosition(position))) {
                     possibleMoves.add(new Position(
                             (_position.getX() + position.getX()),
@@ -42,20 +42,18 @@ public abstract class Figure {
         return possibleMoves;
     }
 
-    public boolean checkMove(Position position){
+    public boolean checkMove(Position position) {
         boolean result = false;
-        if (!isOutOfBorder(position)){
-           result = checkMoveFigure(position);
+        if (!isOutOfBorder(position)) {
+            result = checkMoveFigure(position);
         }
         return result;
     }
 
     private boolean isOutOfBorder(Position position) {
         return ((1 <= position.getX()) && (position.getX() >= Game.WIDTH)
-                && (1 <= position.getY()) && (position.getY()>=Game.HEIGHT));
+                && (1 <= position.getY()) && (position.getY() >= Game.HEIGHT));
     }
-
-
 
 
     public Position getPosition() {
@@ -66,7 +64,7 @@ public abstract class Figure {
         return _black;
     }
 
-    public boolean isSameColor(Figure figure){
+    public boolean isSameColor(Figure figure) {
         return this.isBlack() == figure.isBlack();
     }
 
