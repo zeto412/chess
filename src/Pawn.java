@@ -13,6 +13,8 @@ public class Pawn extends Figure{
         _moveMap.add(_doubleMove);
         _moveMap.add(_leftMove);
         _moveMap.add(_rightMove);
+
+        possibleMovesGetter = new MapMoveImpl();
     }
 
     public Pawn(boolean _black, Position _position) {
@@ -48,7 +50,7 @@ public class Pawn extends Figure{
 
         for (Position position : unchekedPositions) {
             if(position == leftPosition || position == rightPosition){
-                if (!Game._field.isPositionBusy(position)){
+                if (!Game.field.isPositionBusy(position)) {
                     unchekedPositions.remove(position);
                 }
             }

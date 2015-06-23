@@ -5,7 +5,18 @@ public abstract class Figure {
     private boolean _black;
     protected Position _position;
     private boolean _dead;
+
+    public boolean isDead() {
+        return _dead;
+    }
+
+    public void setDead() {
+        _dead = true;
+    }
+
     protected List<Position> _moveMap = new LinkedList<>();
+
+    protected Move possibleMovesGetter;
 
     public Figure(boolean _black, Position _position) {
         this._black = _black;
@@ -28,21 +39,10 @@ public abstract class Figure {
     }
 
     protected List<Position> getPossibleMoves() {
-        List<Position> possibleMoves = new LinkedList<>();
-        for (Position position : _moveMap) {
-            if (Game._field.isPositionBusy(position)) {
-                if (isSameColor(Game._field.getFigureByPosition(position))) {
-                    possibleMoves.add(new Position(
-                            (_position.getX() + position.getX()),
-                            (_position.getY() + position.getY())
-                    ));
-                }
-            }
-        }
-        return possibleMoves;
+        return possibleMovesGetter.getPossibleMoves(this, _moveMap);
     }
 
-    public boolean checkMove(Position position) {
+    public boolean canMove(Position position) {
         boolean result = false;
         if (!isOutOfBorder(position)) {
             result = checkMoveFigure(position);
@@ -50,11 +50,11 @@ public abstract class Figure {
         return result;
     }
 
+
     private boolean isOutOfBorder(Position position) {
         return ((1 <= position.getX()) && (position.getX() >= Game.WIDTH)
                 && (1 <= position.getY()) && (position.getY() >= Game.HEIGHT));
     }
-
 
     public Position getPosition() {
         return _position;
@@ -67,5 +67,4 @@ public abstract class Figure {
     public boolean isSameColor(Figure figure) {
         return this.isBlack() == figure.isBlack();
     }
-
 }
