@@ -1,3 +1,8 @@
+package Figures;
+
+import Figures.Action.MapMoveImpl;
+import Util.Position;
+
 public class Knight extends Figure {
 
     {

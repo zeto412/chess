@@ -1,3 +1,5 @@
+package Util;
+
 public class Position {
     private short _x;
     private short _y;

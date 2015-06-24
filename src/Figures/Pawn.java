@@ -1,6 +1,12 @@
+package Figures;
+
+import Figures.Action.MapMoveImpl;
+import Game.Launcher;
+import Util.Position;
+
 import java.util.List;
 
-public class Pawn extends Figure{
+public class Pawn extends Figure {
     private boolean wasMove = false;
     private Position _leftMove;
     private Position _rightMove;
@@ -50,7 +56,7 @@ public class Pawn extends Figure{
 
         for (Position position : unchekedPositions) {
             if(position == leftPosition || position == rightPosition){
-                if (!Game.field.isPositionBusy(position)) {
+                if (!Launcher.field.isPositionBusy(position)) {
                     unchekedPositions.remove(position);
                 }
             }

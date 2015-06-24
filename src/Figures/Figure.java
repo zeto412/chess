@@ -1,3 +1,9 @@
+package Figures;
+
+import Figures.Action.Move;
+import Game.Launcher;
+import Util.Position;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,8 +58,8 @@ public abstract class Figure {
 
 
     private boolean isOutOfBorder(Position position) {
-        return ((1 <= position.getX()) && (position.getX() >= Game.WIDTH)
-                && (1 <= position.getY()) && (position.getY() >= Game.HEIGHT));
+        return ((1 <= position.getX()) && (position.getX() >= Launcher.WIDTH)
+                && (1 <= position.getY()) && (position.getY() >= Launcher.HEIGHT));
     }
 
     public Position getPosition() {

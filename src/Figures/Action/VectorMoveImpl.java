@@ -1,3 +1,9 @@
+package Figures.Action;
+
+import Figures.Figure;
+import Game.Launcher;
+import Util.Position;
+
 import java.util.List;
 
 public class VectorMoveImpl implements Move {
@@ -15,10 +21,10 @@ public class VectorMoveImpl implements Move {
         for (Position position : unchekedMoves) {
             final short dx = (short) (Math.max(position.getX(), figureToCheck.getPosition().getX()) + Math.min(position.getX(), figureToCheck.getPosition().getX()));
             final short dy = (short) (Math.max(position.getY(), figureToCheck.getPosition().getY()) + Math.min(position.getY(), figureToCheck.getPosition().getY()));
-            for (short x = (short) (figureToCheck.getPosition().getX() + dx); x < Game.WIDTH; x += dx) {
-                for (short y = (short) (figureToCheck.getPosition().getY() + dy); y < Game.HEIGHT; y += dy) {
+            for (short x = (short) (figureToCheck.getPosition().getX() + dx); x < Launcher.WIDTH; x += dx) {
+                for (short y = (short) (figureToCheck.getPosition().getY() + dy); y < Launcher.HEIGHT; y += dy) {
                     Position currentCheckPosition = new Position(x, y);
-                    Figure checkFigure = Game.field.getFigureByPosition(currentCheckPosition);
+                    Figure checkFigure = Launcher.field.getFigureByPosition(currentCheckPosition);
                     if (checkFigure == null || (checkFigure.isDead())) {
                         unchekedMoves.add(currentCheckPosition);
                     } else if (!checkFigure.isSameColor(figureToCheck)) {

@@ -1,3 +1,9 @@
+package Figures.Action;
+
+import Figures.Figure;
+import Game.Launcher;
+import Util.Position;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -6,8 +12,8 @@ public class MapMoveImpl implements Move {
     public List<Position> getPossibleMoves(Figure figureToCheck, List<Position> moveMap) {
         List<Position> possibleMoves = new LinkedList<>();
         for (Position position : moveMap) {
-            if (Game.field.isPositionBusy(position)) {
-                final Figure figure = Game.field.getFigureByPosition(position);
+            if (Launcher.field.isPositionBusy(position)) {
+                final Figure figure = Launcher.field.getFigureByPosition(position);
                 if (!figure.isDead()) {
                     if (figureToCheck.isSameColor(figure)) {
                         possibleMoves.add(new Position(

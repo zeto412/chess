@@ -1,3 +1,8 @@
+package Figures;
+
+import Figures.Action.VectorMoveImpl;
+import Util.Position;
+
 public class Bishop extends Figure {
     {
         _moveMap.add(new Position(1, -1));
