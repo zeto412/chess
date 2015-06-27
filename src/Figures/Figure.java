@@ -1,5 +1,6 @@
 package Figures;
 
+import Core.Exceptions.KingCantMoveException;
 import Figures.Action.Move;
 import Game.Launcher;
 import Util.Position;
@@ -34,8 +35,12 @@ public abstract class Figure {
         _position = newPosition;
     }
 
-    protected boolean checkMoveFigure(Position position) {
-        for (Position checkPosition : getPossibleMoves()) {
+    protected boolean checkMoveFigure(Position position) throws KingCantMoveException {
+        List<Position> possibleMoves = getPossibleMoves();
+        if (this instanceof King && possibleMoves.isEmpty()) {
+            throw new KingCantMoveException();
+        }
+        for (Position checkPosition : possibleMoves) {
             if (checkPosition == position) {
                 return true;
             }
@@ -48,7 +53,7 @@ public abstract class Figure {
         return possibleMovesGetter.getPossibleMoves(this, _moveMap);
     }
 
-    public boolean canMove(Position position) {
+    public boolean canMove(Position position) throws KingCantMoveException {
         boolean result = false;
         if (!isOutOfBorder(position)) {
             result = checkMoveFigure(position);

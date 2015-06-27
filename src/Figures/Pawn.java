@@ -1,7 +1,7 @@
 package Figures;
 
 import Figures.Action.MapMoveImpl;
-import Game.Launcher;
+import Game.Field;
 import Util.Position;
 
 import java.util.List;
@@ -40,6 +40,7 @@ public class Pawn extends Figure {
 
     @Override
     protected List<Position> getPossibleMoves() {
+        Field field = Field.getInstance();
         List<Position> unchekedPositions = super.getPossibleMoves();
         Position leftPosition = new Position(
                 this.getPosition().getX()+_leftMove.getX(),
@@ -56,7 +57,7 @@ public class Pawn extends Figure {
 
         for (Position position : unchekedPositions) {
             if(position == leftPosition || position == rightPosition){
-                if (!Launcher.field.isPositionBusy(position)) {
+                if (!field.isPositionBusy(position)) {
                     unchekedPositions.remove(position);
                 }
             }

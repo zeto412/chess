@@ -1,20 +1,58 @@
 package Core;
 
+import Core.Exceptions.*;
 import Figures.Figure;
 import Game.Field;
 import Util.Position;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class Model {
 
     public enum Message {
-        GAMESTART_MESSAGE;
+        ERROR_NO_FIGURE,
+        ERROR_FIGURE_CANT_MOVE,
+        ERROR_INPUT_POSITION,
+        ERROR_INPUT_POSITION_DONT_HAVE_SPLITTER,
+        ERROR_INPUT_POSITION_HAVE_INCORRECT_VALUES,
+        MESSAGE_START_GAME,
+        MESSAGE_GET_POSITION,
+        MESSAGE_CURRENT_COLOR_WHITE,
+        MESSAGE_CURRENT_COLOR_BLACK,
+        MESSAGE_CURRENT_COLOR_LOSE;
 
         private static String get(Message messageName) {
             switch (messageName) {
-                case GAMESTART_MESSAGE:
+                case MESSAGE_START_GAME:
                     return "Game started";
+
+                case ERROR_NO_FIGURE:
+                    return "There is no figure on this position";
+
+                case MESSAGE_GET_POSITION:
+                    return "Write your move: {char num}";
+
+                case ERROR_FIGURE_CANT_MOVE:
+                    return "Figure cant move";
+
+                case ERROR_INPUT_POSITION:
+                    return "Incorrect position. Try again.";
+
+                case ERROR_INPUT_POSITION_DONT_HAVE_SPLITTER:
+                    return "Input position don`t have spiltter. Use space as splitter.";
+
+                case ERROR_INPUT_POSITION_HAVE_INCORRECT_VALUES:
+                    return "Coordinates must have one char. Example: \"B 3\"";
+
+                case MESSAGE_CURRENT_COLOR_WHITE:
+                    return "White`s move";
+
+                case MESSAGE_CURRENT_COLOR_BLACK:
+                    return "Black`s move";
+
+                case MESSAGE_CURRENT_COLOR_LOSE:
+                    return "Current color lose! GAME OVER.";
 
                 default:
                     return null;
@@ -40,6 +78,7 @@ public class Model {
     }
 
     static {
+        wordToNumber = new HashMap<>();
         wordToNumber.put('A', (short) 1);
         wordToNumber.put('B', (short) 2);
         wordToNumber.put('C', (short) 3);
@@ -53,7 +92,8 @@ public class Model {
     }
 
     void init(final short width, final short height) {
-        field = Field.getInstance(width, height);
+        field = Field.getInstance();
+        field.init(width, height);
 
     }
 
@@ -61,19 +101,16 @@ public class Model {
         return Message.get(message);
     }
 
-    void move(short startPositionX, short startPositionY,
-              short endPositionX, short endPositionY) {
-        Position start = new Position(startPositionX, startPositionY);
-        Position end = new Position(endPositionX, endPositionY);
+    void move(Position start, Position end) throws FigureIsNullException, FigureCantMoveException, KingCantMoveException {
 
         final Figure currentFigure = field.getFigureByPosition(start);
 
         if (currentFigure == null) {
-            return;
+            throw new FigureIsNullException();
         }
 
         if (!currentFigure.canMove(start)) {
-            return;
+            throw new FigureCantMoveException();
         }
 
         currentFigure.move(end);
@@ -85,25 +122,27 @@ public class Model {
 
     }
 
-    public Position parseStringWithPosition(String string) {
+    public boolean isPositionBusy(Position position) {
+        return field.isPositionBusy(position);
+    }
+
+    public Position parseStringWithPosition(String string) throws InputPositionDontHaveSplitterException, InputPositionHaveIncorrectValuesException {
         String splitter = " ";
         if (!string.contains(splitter)) {
-            return null;
+            throw new InputPositionDontHaveSplitterException();
         }
 
         String[] strings = string.split(splitter);
 
         if (strings[0].length() != 1 && strings[1].length() != 1) {
-            return null;
+            throw new InputPositionHaveIncorrectValuesException();
         }
 
         Character character = strings[0].charAt(0);
         Short secondNum = Short.parseShort(strings[1]);
-        Short firstNum = wordToNumber.get(character);
+        Short firstNum = wordToNumber.get(Character.toUpperCase(character));
 
         return new Position(firstNum, secondNum);
     }
-
-
 
 }

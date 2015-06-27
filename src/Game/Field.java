@@ -4,18 +4,32 @@ import Figures.Figure;
 import Util.Position;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Field {
 
     private short _width;
     private short _height;
 
-    private static class Holder {
-        static Field instance;
+    public List<Figure> getFigures() {
+        return field;
     }
 
-    public static Field getInstance(short width, short height) {
-        return Holder.instance = new Field(width, height);
+    private static class Holder {
+        static Field instance = new Field();
+    }
+
+    public static Field getInstance() {
+        return Holder.instance;
+    }
+
+    public void init(short width, short height) {
+        _width = width;
+        _height = height;
+    }
+
+    private Field() {
+
     }
 
     private Field(short width, short height) {
@@ -40,11 +54,12 @@ public class Field {
         field.add(new Figures.Bishop(white, new Position(3, 1)));
         field.add(new Figures.Bishop(white, new Position(6, 1)));
         for (int i = 1; i <= Launcher.WIDTH; i++) {
-            field.add(new Figures.Pawn(black, new Position(7, i)));
+            field.add(new Figures.Pawn(black, new Position(i, 7)));
         }
         for (int i = 1; i <= Launcher.WIDTH; i++) {
-            field.add(new Figures.Pawn(white, new Position(2, i)));
+            field.add(new Figures.Pawn(white, new Position(i, 2)));
         }
+        System.out.printf("уси еорю");
     }
 
     public final static ArrayList<Figure> field = new ArrayList<Figure>(32);
