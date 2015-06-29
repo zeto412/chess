@@ -15,6 +15,14 @@ public class Field {
         return field;
     }
 
+    public short getWidth() {
+        return _width;
+    }
+
+    public short getHeight() {
+        return _height;
+    }
+
     private static class Holder {
         static Field instance = new Field();
     }
@@ -23,16 +31,9 @@ public class Field {
         return Holder.instance;
     }
 
+    public final static ArrayList<Figure> field = new ArrayList<>(32);
+
     public void init(short width, short height) {
-        _width = width;
-        _height = height;
-    }
-
-    private Field() {
-
-    }
-
-    private Field(short width, short height) {
         _width = width;
         _height = height;
         boolean black = true;
@@ -53,28 +54,33 @@ public class Field {
         field.add(new Figures.Bishop(black, new Position(6, 8)));
         field.add(new Figures.Bishop(white, new Position(3, 1)));
         field.add(new Figures.Bishop(white, new Position(6, 1)));
-        for (int i = 1; i <= Launcher.WIDTH; i++) {
-            field.add(new Figures.Pawn(black, new Position(i, 7)));
-        }
-        for (int i = 1; i <= Launcher.WIDTH; i++) {
-            field.add(new Figures.Pawn(white, new Position(i, 2)));
-        }
-        System.out.printf("уси еорю");
+//        for (int i = 1; i <= _width; i++) {
+//            field.add(new Figures.Pawn(black, new Position(i, 7)));
+//        }
+//        for (int i = 1; i <= _width; i++) {
+//            field.add(new Figures.Pawn(white, new Position(i, 2)));
+//        }
     }
 
-    public final static ArrayList<Figure> field = new ArrayList<Figure>(32);
+    private Field() {
+
+    }
 
     public boolean isPositionBusy(Position position) {
-        return (getFigureByPosition(position) != null);
+        final Figure figureByPosition = getFigureByPosition(position);
+        return !(figureByPosition == null || figureByPosition.isDead());
     }
 
-    public boolean isFigureBlack(Position position) {
-        return getFigureByPosition(position).isBlack();
+    public boolean isOutOfBorder(Position position) {
+//        return (((1 > position.getX()) && (position.getX() < getWidth()+1))
+//                && ((1 > position.getY()) && (position.getY() < getHeight()+1)));
+
+        return ((position.getX() < 1) || (position.getX() > getWidth()) || (position.getY() < 1) || (position.getY() > getHeight()));
     }
 
     public Figure getFigureByPosition(Position position) {
         for (Figure figure : field) {
-            if (figure.getPosition() == position) {
+            if (figure.getPosition().equals(position)) {
                 return figure;
             }
         }

@@ -55,17 +55,24 @@ public class Pawn extends Figure {
                 this.getPosition().getY()+_doubleMove.getY()
         );
 
-        for (Position position : unchekedPositions) {
-            if(position == leftPosition || position == rightPosition){
-                if (!field.isPositionBusy(position)) {
+        for (int i = 0; i < unchekedPositions.size(); ) {
+            Position position = unchekedPositions.get(i);
+            if (position.equals(rightPosition) || position.equals(leftPosition)) {
+                if (field.isPositionBusy(position) && isSameColor(field.getFigureByPosition(position))) {
                     unchekedPositions.remove(position);
+                    continue;
+                } else if (!field.isPositionBusy(position)) {
+                    unchekedPositions.remove(position);
+                    continue;
                 }
             }
-            if (position == doublePosition){
+            if (position.equals(doublePosition)) {
                 if (wasMove){
                     unchekedPositions.remove(position);
+                    continue;
                 }
             }
+            i++;
         }
         return unchekedPositions;
     }

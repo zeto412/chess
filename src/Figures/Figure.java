@@ -2,7 +2,7 @@ package Figures;
 
 import Core.Exceptions.KingCantMoveException;
 import Figures.Action.Move;
-import Game.Launcher;
+import Game.Field;
 import Util.Position;
 
 import java.util.LinkedList;
@@ -41,11 +41,10 @@ public abstract class Figure {
             throw new KingCantMoveException();
         }
         for (Position checkPosition : possibleMoves) {
-            if (checkPosition == position) {
+            if (checkPosition.equals(position)) {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -55,17 +54,13 @@ public abstract class Figure {
 
     public boolean canMove(Position position) throws KingCantMoveException {
         boolean result = false;
-        if (!isOutOfBorder(position)) {
+        Field field = Field.getInstance();
+        if (!field.isOutOfBorder(position)) {
             result = checkMoveFigure(position);
         }
         return result;
     }
 
-
-    private boolean isOutOfBorder(Position position) {
-        return ((1 <= position.getX()) && (position.getX() >= Launcher.WIDTH)
-                && (1 <= position.getY()) && (position.getY() >= Launcher.HEIGHT));
-    }
 
     public Position getPosition() {
         return _position;

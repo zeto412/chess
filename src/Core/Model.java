@@ -94,7 +94,6 @@ public class Model {
     void init(final short width, final short height) {
         field = Field.getInstance();
         field.init(width, height);
-
     }
 
     String getMessage(Message message) {
@@ -109,17 +108,16 @@ public class Model {
             throw new FigureIsNullException();
         }
 
-        if (!currentFigure.canMove(start)) {
+        if (!currentFigure.canMove(end)) {
             throw new FigureCantMoveException();
         }
-
-        currentFigure.move(end);
 
         final Figure figureByPositionOnEnd = field.getFigureByPosition(end);
         if (figureByPositionOnEnd != null) {
             figureByPositionOnEnd.setDead();
         }
 
+        currentFigure.move(end);
     }
 
     public boolean isPositionBusy(Position position) {

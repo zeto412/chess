@@ -29,6 +29,12 @@ public class Position {
     public boolean equals(Object position) {
         short x = ((Position)position).getX();
         short y = ((Position)position).getY();
-        return ((_x == x)&&(_y == y));
+
+        return ((this._x == x) && (this._y == y));
+    }
+
+    @Override
+    public String toString() {
+        return _x + "\t" + _y;
     }
 }
